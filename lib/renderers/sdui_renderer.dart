@@ -21,6 +21,8 @@ class SDUIRenderer extends StatelessWidget {
         return _buildQuestionnaire();
       case "card":
         return _buildCard();
+      case "instructions":
+        return _buildInstructions();
       default:
         return const Text("Unknown SDUI type");
     }
@@ -135,6 +137,7 @@ class SDUIRenderer extends StatelessWidget {
   }
 
   Widget _buildCard() {
+    final iconText = json["icon"];
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -145,8 +148,66 @@ class SDUIRenderer extends StatelessWidget {
               json["title"],
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
+            if (iconText != null) ...[
+              const SizedBox(height: 8),
+              Text(iconText, style: const TextStyle(fontSize: 32)),
+            ],
             const SizedBox(height: 8),
             Text(json["content"]),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInstructions() {
+    final steps = List<String>.from(json["steps"] ?? []);
+    final actions = List<Map<String, dynamic>>.from(json["actions"] ?? []);
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              json["title"],
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            if (json["subtitle"] != null) ...[
+              const SizedBox(height: 6),
+              Text(
+                json["subtitle"],
+                style: const TextStyle(color: Colors.black54),
+              ),
+            ],
+            const SizedBox(height: 12),
+            ...steps.map(
+              (step) => Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text("• "),
+                    Expanded(child: Text(step)),
+                  ],
+                ),
+              ),
+            ),
+            if (actions.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 8,
+                children: actions
+                    .map(
+                      (action) => OutlinedButton(
+                        onPressed: onSubmit,
+                        child: Text(action["label"] ?? "OK"),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ],
           ],
         ),
       ),

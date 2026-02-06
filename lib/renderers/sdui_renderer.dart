@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'rfw_renderer.dart';
 
 class SDUIRenderer extends StatelessWidget {
   final Map<String, dynamic> json;
@@ -23,6 +24,8 @@ class SDUIRenderer extends StatelessWidget {
         return _buildCard();
       case "instructions":
         return _buildInstructions();
+      case "rfw":
+        return _buildRfw();
       default:
         return const Text("Unknown SDUI type");
     }
@@ -211,6 +214,13 @@ class SDUIRenderer extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildRfw() {
+    return RfwRenderer(
+      library: json["library"] ?? "",
+      data: json["data"] ?? "{}",
     );
   }
 }

@@ -1,6 +1,25 @@
 import '../jsons/initial_questionnaire.dart';
 
 class MockBackend {
+  static const String _rfwLibrary = '''
+import core.widgets;
+
+widget root = Directionality(
+  textDirection: ltr,
+  child: Center(
+    child: Text(
+      text: 'Γεια σου από RFW',
+    ),
+  ),
+);
+''';
+
+  static const String _rfwData = '''
+{
+  "message": "Γεια σου από RFW!"
+}
+''';
+
   static Map<String, dynamic> handleUserMessage(String message) {
     final normalized = message.toLowerCase();
 
@@ -53,39 +72,15 @@ class MockBackend {
       };
     }
 
-    return Map<String, dynamic>.from(initialQuestionnaire);
-  }
-
-  static Map<String, dynamic> sendAnswers(Map<String, dynamic> answers) {
-    final mood = answers["mood"];
-    final energy = answers["energy"] ?? 0;
-
-    // 🔹 ΛΟΓΙΚΗ SERVER
-    if (mood == "😞 Άσχημα" || energy < 4) {
+    if (normalized.contains('rfw') || normalized.contains('remote')) {
       return {
-        "type": "questionnaire",
-        "title": "Θες λίγη βοήθεια;",
-        "questions": [
-          {
-            "id": "support",
-            "type": "single_choice",
-            "question": "Τι θα σε βοηθούσε τώρα;",
-            "options": [
-              "Χαλαρωτικές ασκήσεις",
-              "Συμβουλές",
-              "Να μιλήσω με κάποιον",
-            ],
-          },
-        ],
-        "submit": {"label": "Συνέχεια"},
+        "type": "rfw",
+        "title": "RFW Demo",
+        "library": _rfwLibrary,
+        "data": _rfwData,
       };
     }
 
-    // 🔹 ΑΛΛΗ ΠΕΡΙΠΤΩΣΗ → CARD
-    return {
-      "type": "card",
-      "title": "Σύνοψη",
-      "content": "Φαίνεται ότι είσαι σε καλή κατάσταση σήμερα 💪",
-    };
+    return Map<String, dynamic>.from(initialQuestionnaire);
   }
 }

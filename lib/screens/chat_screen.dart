@@ -25,7 +25,7 @@ class _ChatScreenState extends State<ChatScreen> {
         isUser: false,
         text:
             'Γεια σου! Γράψε το αίτημά σου (π.χ. «ερωτηματολόγιο», «καιρός»,'
-            ' «οδηγίες») και θα λάβεις δυναμικό UI.',
+            ' «οδηγίες», «rfw») και θα λάβεις δυναμικό UI.',
       ),
     );
   }
@@ -66,23 +66,6 @@ class _ChatScreenState extends State<ChatScreen> {
     _scrollToBottom();
   }
 
-  void _handleSubmit() {
-    final responseJson = MockBackend.sendAnswers(_answers);
-
-    setState(() {
-      _answers.clear();
-      _messages.add(
-        ChatMessage(
-          id: 'bot-${DateTime.now().millisecondsSinceEpoch}',
-          isUser: false,
-          sduiJson: responseJson,
-        ),
-      );
-    });
-
-    _scrollToBottom();
-  }
-
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!_scrollController.hasClients) {
@@ -120,9 +103,6 @@ class _ChatScreenState extends State<ChatScreen> {
                       _answers[id] = value;
                     });
                   },
-                  onSubmit: isLastMessage && message.sduiJson != null
-                      ? _handleSubmit
-                      : null,
                 );
               },
             ),
@@ -202,7 +182,7 @@ class _ChatInput extends StatelessWidget {
               controller: controller,
               decoration: const InputDecoration(
                 hintText:
-                    'Γράψε κάτι... (π.χ. καιρός, οδηγίες, ερωτηματολόγιο)',
+                    'Γράψε κάτι... (π.χ. καιρός, οδηγίες, ερωτηματολόγιο, rfw)',
                 border: OutlineInputBorder(),
               ),
               onSubmitted: onSend,

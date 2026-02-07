@@ -6,10 +6,12 @@ class MockBackend {
 
     if (normalized.contains('καιρ')) {
       return {
-        "type": "card",
-        "title": "Κάρτα Καιρού",
-        "content": "Αύριο προβλέπεται ηλιοφάνεια ☀️ με 24°C.",
-        "icon": "☀️",
+        "type": "rfw_card",
+        "data": {
+          "title": "Κάρτα Καιρού",
+          "content": "Αύριο προβλέπεται ηλιοφάνεια ☀️ με 24°C.",
+          "icon": "☀️",
+        },
       };
     }
     return Map<String, dynamic>.from(initialQuestionnaire);

@@ -20,15 +20,55 @@ widget root = Directionality(
 }
 ''';
 
+  static const String _weatherRfwLibrary = '''
+import core.widgets;
+import core.material;
+
+widget root = Card(
+  child: Padding(
+    padding: [16],
+    child: Column(
+      crossAxisAlignment: start,
+      children: [
+        Text(
+          text: data.title,
+          style: {
+            "fontSize": 18,
+            "fontWeight": "bold"
+          },
+        ),
+        SizedBox(height: 8),
+        Text(
+          text: data.icon,
+          style: {
+            "fontSize": 32
+          },
+        ),
+        SizedBox(height: 8),
+        Text(text: data.content),
+      ],
+    ),
+  ),
+);
+''';
+
+  static const String _weatherRfwData = '''
+{
+  "title": "Κάρτα Καιρού",
+  "content": "Αύριο προβλέπεται ηλιοφάνεια ☀️ με 24°C.",
+  "icon": "☀️"
+}
+''';
+
   static Map<String, dynamic> handleUserMessage(String message) {
     final normalized = message.toLowerCase();
 
     if (normalized.contains('καιρ')) {
       return {
-        "type": "card",
+        "type": "rfw",
         "title": "Κάρτα Καιρού",
-        "content": "Αύριο προβλέπεται ηλιοφάνεια ☀️ με 24°C.",
-        "icon": "☀️",
+        "library": _weatherRfwLibrary,
+        "data": _weatherRfwData,
       };
     }
 

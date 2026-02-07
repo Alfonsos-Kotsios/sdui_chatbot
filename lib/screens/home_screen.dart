@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
               ).push(MaterialPageRoute(builder: (_) => const ChatScreen()));
             },
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 40),
           _NavCard(
             title: 'RFW Παράδειγμα',
             subtitle: 'Πρώτο βήμα για Remote Flutter Widgets αρχιτεκτονική.',

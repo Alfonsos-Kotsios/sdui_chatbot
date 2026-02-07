@@ -24,8 +24,8 @@ class _ChatScreenState extends State<ChatScreen> {
         id: 'bot-1',
         isUser: false,
         text:
-            'Γεια σου! Γράψε το αίτημά σου (π.χ. «ερωτηματολόγιο», «καιρός»,'
-            ' «οδηγίες», «rfw») και θα λάβεις δυναμικό UI.',
+            'Γεια σου! Γράψε το αίτημά σου (π.χ. «καιρός»,'
+            ') και θα λάβεις δυναμικό UI.',
       ),
     );
   }
@@ -120,14 +120,12 @@ class _ChatBubble extends StatelessWidget {
   final bool isInteractive;
   final Map<String, dynamic> answers;
   final Function(String, dynamic) onAnswer;
-  final VoidCallback? onSubmit;
 
   const _ChatBubble({
     required this.message,
     required this.isInteractive,
     required this.answers,
     required this.onAnswer,
-    this.onSubmit,
   });
 
   @override
@@ -157,7 +155,6 @@ class _ChatBubble extends StatelessWidget {
                 json: message.sduiJson!,
                 answers: isInteractive ? answers : const {},
                 onAnswer: isInteractive ? onAnswer : (_, __) {},
-                onSubmit: isInteractive ? onSubmit : null,
               )
             : Text(message.text ?? '', style: TextStyle(color: textColor)),
       ),
@@ -181,8 +178,7 @@ class _ChatInput extends StatelessWidget {
             child: TextField(
               controller: controller,
               decoration: const InputDecoration(
-                hintText:
-                    'Γράψε κάτι... (π.χ. καιρός, οδηγίες, ερωτηματολόγιο, rfw)',
+                hintText: 'Γράψε κάτι... (π.χ. καιρός)',
                 border: OutlineInputBorder(),
               ),
               onSubmitted: onSend,
